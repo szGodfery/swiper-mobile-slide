@@ -1,0 +1,120 @@
+*,
+*:after,
+*:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+body,
+html {
+  width: 100%;
+  height: 100%;
+  font-family: "PingFangSC-Medium";
+  background: #f5f5f5;
+  -webkit-overflow-scrolling: touch;
+}
+a,
+a:active,
+a:hover,
+a:link,
+a:visited {
+  text-decoration: none;
+  cursor: pointer;
+}
+input[type='text'],
+input[type='text']:focus,
+input[type='text']:hover,
+input[type='text']:checked {
+  text-decoration: none;
+  -webkit-appearance: none;
+  background: transparent;
+}
+textarea {
+  border: none;
+}
+li,
+ul {
+  text-decoration: none;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.clearfix:after {
+  display: block;
+  content: ".";
+  height: 0;
+  line-height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.topBar {
+  height: .88rem;
+  width: 100%;
+  background-color: #fff;
+  position: fixed;
+  top: 0;
+  z-index: 100;
+}
+.topBar #nav {
+  height: .88rem;
+  border-bottom: 1px solid #e8e8e8;
+}
+.topBar #nav .swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /*下面是兼容写法 优雅降级*/
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: -moz-box;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -moz-align-items: center;
+  -webkit-align-items: center;
+  -webkit-box-pack: center;
+  -moz-justify-content: center;
+  -webkit-justify-content: center;
+}
+.topBar #nav .swiper-slide .active {
+  color: #00be06;
+}
+.topBar #nav .swiper-slide .titleText {
+  font-size: .32rem;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0.1rem;
+}
+.topBar #nav .bar {
+  width: 0.8rem;
+  height: 0.04rem;
+  position: absolute;
+  bottom: 0;
+}
+.topBar #nav .bar .color {
+  width: 0.8rem;
+  margin: 0 auto;
+  height: .04rem;
+  background: #00be06;
+}
+#page {
+  height: 100%;
+}
+#page .slidepage {
+  margin-top: .88rem;
+}
+#page .slidepage .main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: .6rem;
+  height: 100%;
+  background-color: #388bff;
+}

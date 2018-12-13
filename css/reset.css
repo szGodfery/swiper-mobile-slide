@@ -1,0 +1,29 @@
+@charset "UTF-8";
+/**
+ * 
+ */
+/*样式重置*/
+html,body,div,h1,h2,h3,h4,h5,h6,p,dl,dd,dt,ul,ol,li,form,input,textarea,th,td,select{ margin: 0px; padding: 0px;}
+body{font-size: 12px; font-family: "PingFang-SC"}
+em,i{font-style: normal;}
+li{list-style: none;}
+a{text-decoration: none;}
+img{border: none; vertical-align: top;}
+table{border-collapse: collapse;}
+input,select,textarea{resize:none; overflow: auto; outline:none;/*去掉点击后的外边框*/}
+/*清除select原有的样式*/
+select::-ms-expand {display: none;}
+select{ border: solid 1px #000; appearance:none; -moz-appearance:none; -webkit-appearance:none;  
+background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent; padding-right: 14px; }  
+
+.fl{float: left;}
+.fr{float: right;}
+.clear{zoom:1;}
+.clear:after{content: ""; display: block; clear:both;}
+
+/*显示省略号*/
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

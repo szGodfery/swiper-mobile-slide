@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <!-- 引入rem  定义1rem为50px -->
+  <script src="./js/px2rem.js"></script>
+  <link rel="stylesheet" href="./css/swiper.min.css">
+  <link rel="stylesheet" href="./css/reset.css">
+  <link rel="stylesheet" href="./css/nav.css">
+</head>
+
+<body>
+  <!-- 头部导航开始 -->
+  <nav class="topBar" id="top">
+    <!-- swiper html固定结构 -->
+    <div class="swiper-container" id="nav">
+      <div class="swiper-wrapper" id="tabList">
+        <div class="swiper-slide" data-id="1">
+          <span class="titleText active" data-type="0">头条</span>
+        </div>
+        <div class="swiper-slide" data-id="2">
+          <span class="titleText" data-type="0">热点</span>
+        </div>
+        <div class="swiper-slide" data-id="3">
+          <span class="titleText" data-type="0">房贷</span>
+        </div>
+        <div class="swiper-slide" data-id="4">
+          <span class="titleText" data-type="0">车贷</span>
+        </div>
+        <div class="swiper-slide" data-id="5">
+          <span class="titleText" data-type="0">信贷</span>
+        </div>
+        <div class="swiper-slide" data-id="6">
+          <span class="titleText" data-type="0">平安</span>
+        </div>
+        <div class="swiper-slide" data-id="7">
+          <span class="titleText" data-type="0">招商</span>
+        </div>
+
+        <!-- 导航 底下线条颜色 -->
+        <div class="bar">
+          <div class="color"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!-- 头部导航结束 -->
+
+  <!-- 页面内容开始 -->
+  <div class="swiper-container" id="page">
+    <div class="swiper-wrapper" id="contentList">
+      <!-- 头条 -->
+      <div class="swiper-slide slidepage">
+        <div class="main active" id="main0">
+          新闻头条
+        </div>
+      </div>
+
+      <div class="swiper-slide slidepage">
+        <div class="main" id="main0">
+          热点
+        </div>
+      </div>
+
+      <div class="swiper-slide slidepage">
+        <div class="main" id="main0">
+          房贷
+        </div>
+      </div>
+
+      <div class="swiper-slide slidepage">
+        <div class="main" id="main0">
+          车贷
+        </div>
+      </div>
+      <div class="swiper-slide slidepage">
+        <div class="main" id="main0">
+          信贷
+        </div>
+      </div>
+      <div class="swiper-slide slidepage">
+        <div class="main" id="main0">
+          平安
+        </div>
+      </div>
+      <div class="swiper-slide slidepage">
+        <div class="main" id="main0">
+          招商
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 页面内容结束 -->
+
+</body>
+
+</html>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/swiper4.min.js"></script>
+<script>
+  $(function () {
+    var tSpeed = 300 //->过渡速度
+    // 导航条swiper
+    var navSwiper = new Swiper("#nav", {
+      slidesPerView: 6, //->允许容器显示slides的数量 6个
+      slidesOffsetAfter: 60, //->右边框预设偏移量
+      freeMode: true, // ->惯性滑动
+      on: { //->回调函数
+        // ->初始化swiper 后执行 this指向 .swiper-container 元素
+        init: function () {
+          navSlideWidth = this.slides.eq(0).css('width') //->获取每一个slide的宽度
+          bar = this.$el.find('.bar') //->获取导航下方线条
+          bar.css('width', navSlideWidth) //->把bar的宽度改为slide的宽度
+          bar.transition(tSpeed) //->完成过去需要的时间 300ms
+          navSum = this.slides[this.slides.length - 1].offsetLeft; //最后一个slide距离左边的位置
+
+          navTotalWidth = 0 //-> 计算swiper-container的总宽度
+          for (var i = 0; i < this.slides.length; i++) {
+            navTotalWidth += parseInt(this.slides.eq(i).css('width'))
+          }
+          clientWidth = parseInt(this.$wrapperEl.css('width')); //->nav的可视宽度 swiper-wrapper的宽度          
+        }
+      }
+    })
+    // 页面内容swiper 这个是核心
+    var pageSwiper = new Swiper("#page", {
+      //开启计算每个slide的progress(进度、进程)，Swiper的progress无需设置即开启。
+      watchSlidesProgress: true,
+      //抵抗率。边缘抵抗力的大小比例。值越小抵抗越大越难将slide拖离边缘，0时完全无法拖离。
+      resistanceRatio: 0, //-> 比如到第一张的时候无法拖离边缘
+      on: {
+        touchMove: function () { //->手指触碰Swiper并滑动（手指）时执行，接受touchmove事件作为参数
+          progress = this.progress
+          bar.transition(0)
+          bar.transform('translateX(' + navSum * progress + 'px)')
+          // 0, 190, 6 蓝色  灰色51,51,51
+          for (i = 0; i < this.slides.length; i++) {
+            slideProgress = this.slides[i].progress;
+            if (Math.abs(slideProgress) < 1) {
+              r = Math.floor((0 - 51) * (1 - Math.pow(Math.abs(slideProgress), 2)) + 51);
+              g = Math.floor((190 - 51) * (1 - Math.pow(Math.abs(slideProgress), 2)) + 51);
+              b = Math.floor((6 - 51) * (1 - Math.pow(Math.abs(slideProgress), 2)) + 51);
+              navSwiper.slides.eq(i).find('span').css('color', 'rgba(' + r + ',' + g + ',' + b + ',1)');
+            }
+          }
+        },
+        transitionStart: function () { //->过渡开始触发
+          activeIndex = this.activeIndex; //->获取当前活动块的索引
+          activeSlidePosition = navSwiper.slides[activeIndex].offsetLeft; //->导航条对应的活动块的位置
+
+          //释放时导航橙色条移动过渡
+          bar.transition(tSpeed);
+          bar.transform('translateX(' + activeSlidePosition + 'px)');
+
+          //释放时文字变色过渡
+          navSwiper.slides.eq(activeIndex).find('span').transition(tSpeed);
+          navSwiper.slides.eq(activeIndex).find('span').css('color', 'rgb(0, 190, 6)');
+
+          if (activeIndex > 0) {
+            navSwiper.slides.removeClass('swiper-slide-select'); // 不匹配的先全部移除
+            navSwiper.slides.eq(activeIndex).addClass('swiper-slide-select'); //当前的索引slide加上class
+            navSwiper.slides.eq(activeIndex - 1).find('span').transition(tSpeed); //当前索引-1 也就是上一个话300ms完成过渡
+            navSwiper.slides.eq(activeIndex - 1).find('span').css('color', 'rgba(51,51,51,1)'); //当前索引-1的字体颜色变成黑色
+          }
+
+          if (activeIndex < this.slides.length) {
+            navSwiper.slides.removeClass('swiper-slide-select'); // 不匹配的先全部移除
+            navSwiper.slides.eq(activeIndex).addClass('swiper-slide-select');
+            navSwiper.slides.eq(activeIndex + 1).find('span').transition(tSpeed);
+            navSwiper.slides.eq(activeIndex + 1).find('span').css('color', 'rgba(51,51,51,1)');
+          }
+
+          //nav导航 居中
+          navActiveSlideLeft = navSwiper.slides[activeIndex].offsetLeft; //当前Slide距左边的距离
+          navSwiper.setTransition(tSpeed); //->设置过渡时间
+          if (navActiveSlideLeft < (clientWidth - parseInt(navSlideWidth)) / 2) {
+            navSwiper.setTranslate(0); //->设定位移
+          } else if (navActiveSlideLeft > navTotalWidth - (parseInt(navSlideWidth) + clientWidth) / 2) { // 后面几个不居中的
+            navSwiper.setTranslate(clientWidth - navTotalWidth);
+          } else { // 超过3个
+            navSwiper.setTranslate((clientWidth - parseInt(navSlideWidth)) / 2 - navActiveSlideLeft);
+          }
+        },
+
+        transitionEnd: function () { //->过渡结束触发
+          console.log('打开loding+发送数据请求，都在此操作')
+        }
+      }
+    })
+
+    // 去掉导航条按压阴影
+    navSwiper.$el.on('touchstart', function (e) {
+      e.preventDefault() //去掉按压阴影
+    });
+
+    // 给导航条添加点击事件
+    navSwiper.on('tap', function (e) {
+      //e = e.event || window.event
+      e.stopPropagation() //阻止事件冒泡
+      clickIndex = this.clickedIndex
+      clickSlide = this.slides.eq(clickIndex)
+      pageSwiper.slideTo(clickIndex, 0)
+      this.slides.removeClass('swiper-slide-select').find('.titleText').css('color', 'rgba(51,51,51,1)');
+      clickSlide.addClass('swiper-slide-select').find('.titleText').css('color', 'rgb(0, 190, 6)');
+      // 发送数据请求获取内容 
+      
+    })
+
+  })
+</script>
